@@ -26,6 +26,33 @@ server.get('/cars', (req, res) => {
 		});
 });
 
+server.get('/cars/:id', (req, res) => {
+	const id = req.params.id;
+
+	db('cars')
+		.where('id', id)
+		.then((car) => {
+			res.status(200).json(car);
+		})
+		.catch((error) => {
+			res.status(500).json({ message: 'Error retrieving the car' });
+		});
+});
+
+server.delete('/cars/:id', (req, res) => {
+	const id = req.params.id;
+
+	db('cars')
+		.where('id', id)
+		.delete()
+		.then((response) => {
+			res.status(200).json({ message: 'Car deleted successfully' });
+		})
+		.catch((error) => {
+			res.status(500).json({ message: 'Error deleting the car' });
+		});
+});
+
 server.post('/cars', (req, res) => {
 	const newCar = req.body;
 	db('cars')
