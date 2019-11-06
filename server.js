@@ -65,4 +65,18 @@ server.post('/cars', (req, res) => {
 		});
 });
 
+server.put('/cars/:id', (req, res) => {
+	const id = req.params.id;
+	const newInfo = req.body;
+	db('cars')
+		.where('id', id)
+		.update(newInfo)
+		.then((response) => {
+			res.status(200).json({ message: 'Car was updated with the following info', info: newInfo });
+		})
+		.catch((error) => {
+			res.status(500).json({ message: 'Error updating car' });
+		});
+});
+
 module.exports = server;
